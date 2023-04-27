@@ -1,0 +1,28 @@
+PUNTO DE CARGA
+- (int) id
+- (int) estado (nocarga/encarga/oos) (ult. es)
+- (int) fkey - id_electrolinera
+- (str) num_pc_electrolinera
+- (int) cap_carga
+- (int) uptime
+
+ELECTROLINERA
+- (int) id
+- (float) ubic_lat
+- (float) ubic_lon
+- (str) observaciones
+- (int) disponibilidad (cerrado/abierto)
+
+ESTADO
+- (int) fkey - id_puntocarga
+- (int) estado (nocarga/encarga/oos)
+- (timestamp) tiempo
+- (str) matricula (puede ser null)
+
+ESTADISTICAS
+- (int) id
+- (timestamp) tiempo
+- (float) num_pc_encarga
+- (float) num_pc_nocarga
+- (float) num_pc_oos
+- (float) pot_carga_instalada

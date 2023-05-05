@@ -1,6 +1,10 @@
 # Importamos la paquteria necesaria
 import RPi.GPIO as GPIO
 import time
+import requests
+import random
+import string
+import json
 
 TRIG = 23  # Variable que contiene el GPIO al cual conectamos la señal TRIG del sensor
 ECHO = 24  # Variable que contiene el GPIO al cual conectamos la señal ECHO del sensor
@@ -13,6 +17,9 @@ GPIO.setup(ECHO, GPIO.IN)  # Configuramos el pin ECHO como una salida
 
 # Contenemos el código principal en un aestructura try para limpiar los GPIO al terminar o presentarse un error
 try:
+    ocupado = False
+    matricula = ""
+    contador = 0
     # Implementamos un loop infinito
     while True:
 
@@ -47,9 +54,53 @@ try:
 
         # Obtenemos la distancia considerando que la señal recorre dos veces la distancia a medir y que la velocidad del sonido es 343m/s
         distancia = (34300 * duracion) / 2
+        
+        if (ocupado == True) and (distancia > 50):
+            ocupado = False
+            item = {
+                "ID_Estado": ID_Estado,
+                "estado": 0,
+                "matricula": matricula,
+                "tiempo": int(time.time())
+            }
+            
+            print(json.dumps(item))
 
-        # Imprimimos resultado
-        print("Distancia: %.2f cm" % distancia)
+            res = requests.post(API_URL, json=item)
+            
+            print(res.status_code, " Enviado libre")
+            
+            print("\n***** ESPACIO LIBERADO *****\n")
+            
+        elif (distancia < 50) and (ocupado == False):
+            contador += 1
+            print(contador,"/20 ticks")
+            if contador == 20: # Cuando el sensor está a menos de 50cm durante 10 segundos
+                ocupado = True
+                API_URL = "https://5yljen5gogx5kw4exyohbemnje0wkxws.lambda-url.us-east-1.on.aws/"
+                
+                ID_Estado = random.randint(1,20)
+                for i in range(3):
+                    matricula += random.choice(string.ascii_uppercase)
+                numero = random.randint(1000,9999)
+                matricula += str(numero)
+
+                item = {
+                    "ID_Estado": ID_Estado,
+                    "estado": 1,
+                    "matricula": matricula,
+                    "tiempo": int(time.time())
+                }
+                
+                print(json.dumps(item))
+
+                res = requests.post(API_URL, json=item)
+
+                print(res.status_code, " Enviado ocupado")
+                
+                print("\n***** ESPACIO OCUPADO, ESPERE A SER LIBERADO *****\n")
+        else:
+            contador = 0
 
 finally:
     # Reiniciamos todos los canales de GPIO.

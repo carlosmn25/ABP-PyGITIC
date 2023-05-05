@@ -1,7 +1,7 @@
 import requests
 import time
 
-API_URL = "https://xbqwmzroifr7nnad6c4yuj6ocy0ekbpn.lambda-url.us-east-1.on.aws/"
+API_URL = "https://5yljen5gogx5kw4exyohbemnje0wkxws.lambda-url.us-east-1.on.aws/"
 
 item = {
     "ID_Estado": 20,

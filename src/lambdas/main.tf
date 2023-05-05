@@ -1,5 +1,5 @@
 provider "aws" {
-  region                   = "us-east-1"
+  region = "us-east-1"
   //shared_credentials_files = ["/home/ajtarraga/.aws/credentials"]
 }
 
@@ -31,54 +31,54 @@ resource "aws_lambda_function_url" "url1" {
   }
 }
 
-resource "aws_dynamodb_table" "electrolinera_table" {
-  name           = "Electrolinera"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "ID_Electrolinera"
-
-  attribute {
-    name = "ID_Electrolinera"
-    type = "N"
-  }
+/*resource "aws_api_gateway_rest_api" "api_gateway" {
+  name = "Data-API-Gateway"
 }
 
-resource "aws_dynamodb_table" "punto_carga_table" {
-  name           = "PuntoCarga"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "ID_PuntoCarga"
-
-  attribute {
-    name = "ID_PuntoCarga"
-    type = "N"
-  }
+resource "aws_api_gateway_method" "post_form" {
+  rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
+  resource_id   = aws_api_gateway_rest_api.api_gateway.root_resource_id
+  http_method   = "POST"
+  authorization = "NONE"
 }
 
-resource "aws_dynamodb_table" "estado_table" {
-  name           = "Estado"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "ID_Estado"
+resource "aws_api_gateway_integration" "api_gateway_integration_root_post" {
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+  resource_id = aws_api_gateway_method.post_form.resource_id
+  http_method = aws_api_gateway_method.post_form.http_method
 
-  attribute {
-    name = "ID_Estado"
-    type = "N"
-  }
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.terraform_lambda_func.invoke_arn
 }
 
-resource "aws_dynamodb_table" "estadisticas_table" {
-  name           = "Estadisticas"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "ID_Estadisticas"
-
-  attribute {
-    name = "ID_Estadisticas"
-    type = "N"
-  }
+resource "aws_api_gateway_method" "options_form" {
+  rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
+  resource_id   = aws_api_gateway_rest_api.api_gateway.root_resource_id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
 }
+
+resource "aws_api_gateway_integration" "api_gateway_integration_root_option" {
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+  resource_id = aws_api_gateway_method.options_form.resource_id
+  http_method = aws_api_gateway_method.options_form.http_method
+
+  integration_http_method = "OPTIONS"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.terraform_lambda_func.invoke_arn
+}
+
+resource "aws_api_gateway_deployment" "api_gateway_deployment" {
+  depends_on  = [aws_api_gateway_integration.api_gateway_integration_root_post]
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+  stage_name  = "stage-api"
+}
+
+output "lambda_function_invoke_arn" {
+  value = aws_lambda_function.terraform_lambda_func.invoke_arn
+}
+
+output "lambda_function_arn" {
+  value = aws_lambda_function.terraform_lambda_func.lambda_arn
+}*/

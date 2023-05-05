@@ -1,3 +1,7 @@
+import boto3
+
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
 def lambda_handler(event, context):
     import json
 
@@ -5,8 +9,22 @@ def lambda_handler(event, context):
 
     body = json.loads(body)
 
-    message = 'Hello {} !'.format(body['key1'])
+    table = dynamodb.Table('Estado')
+    
+    response = table.put_item(
+        TableName='Estado',
+        Item={
+            'ID_Estado': body['ID_Estado'],
+            'estado': body['estado'],
+            'tiempo': body['tiempo'],
+            'matricula': body['matricula']
+        }
+    )
 
     return {
-        'message' : message
+        'statusCode': 200,
+        'body': json.dumps({
+            'message': body,
+            'response': response
+        })
     }

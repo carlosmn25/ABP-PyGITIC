@@ -1,24 +1,15 @@
 import requests
-import json
+import time
 
-API_URL = "https://sdotklear5u3ecfdtdqk4xku4a0gbfcn.lambda-url.us-east-1.on.aws/"
-
-#res = requests.post(API_URL)
+API_URL = "https://xbqwmzroifr7nnad6c4yuj6ocy0ekbpn.lambda-url.us-east-1.on.aws/"
 
 item = {
-  "key1": "CARLOS CABRON",
-  "key2": "value2",
-  "key3": "value3"
+    "ID_Estado": 20,
+    "estado": 1,
+    "matricula": "AB9116U",
+    "tiempo": int(time.time())
 }
-
-"""res = requests.get(API_URL)
-
-print("GET")
-print(res.status_code)
-print(res.text)"""
 
 res = requests.post(API_URL, json=item)
 
-print("POST")
 print(res.status_code)
-print(res.text)

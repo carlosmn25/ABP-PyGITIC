@@ -31,7 +31,7 @@ def lambda_handler(event, context):
         )
         return {
             'statusCode': 200,
-            'body': response#['Item']
+            'body': response['Items']
         }
     else: # Si no, devolvemos un error
         return {

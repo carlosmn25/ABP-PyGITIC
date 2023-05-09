@@ -1,0 +1,26 @@
+.tilerow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.tile {
+    height: 100%;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tile h2, .tile h3 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.tile h2{
+    font-size: 60px;
+}

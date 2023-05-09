@@ -1,7 +1,7 @@
 // Import express
 const express = require('express')
 
-const port = 3000
+const port = 80
 
 //Set express to use body-parser as middle-ware.
 const app = express()

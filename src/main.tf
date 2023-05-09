@@ -9,3 +9,7 @@ module "dynamodb" {
 module "lambdas" {
   source = "./lambdas"
 }
+
+module "ec2" {
+  source = "./ec2"
+}

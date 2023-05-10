@@ -35,7 +35,9 @@ def import_electrolinera(row):
     )
 
 df = pd.read_csv('eeuu_fuel_stations_processed.csv', low_memory=False)
+df["index"] = df.index + 1
 df_mini = df.head(30)
+print(df_mini)
 df_mini.apply(import_electrolinera, axis=1)
 
 #Ahora generamos un punto de carga por cada electrolinera importada

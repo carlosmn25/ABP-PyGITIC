@@ -10,10 +10,12 @@ ELECTROLINERA
 - (int) id
 - (float) ubic_lat
 - (float) ubic_lon
+- (str) nombre
 - (str) observaciones
 - (int) disponibilidad (cerrado/abierto)
 
 ESTADO
+- (int) id (número único por cada estado)
 - (int) fkey - id_puntocarga
 - (int) estado (nocarga/encarga/oos)
 - (timestamp) tiempo

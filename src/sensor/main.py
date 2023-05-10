@@ -74,10 +74,11 @@ try:
             
         elif (distancia < 50) and (ocupado == False):
             contador += 1
-            print(contador,"/20 ticks")
+            if contador % 2 == 0: # Cada segundo (2 ticks de 0.5 segundos)
+                print(int(contador/2),"/10 segundos")
             if contador == 20: # Cuando el sensor está a menos de 50cm durante 10 segundos
                 ocupado = True
-                API_URL = "https://5yljen5gogx5kw4exyohbemnje0wkxws.lambda-url.us-east-1.on.aws/"
+                API_URL = "https://viaidz4xpzcwfjybprxffgh5lm0liohl.lambda-url.us-east-1.on.aws/"
                 
                 ID_Estado = random.randint(1,20)
                 for i in range(3):

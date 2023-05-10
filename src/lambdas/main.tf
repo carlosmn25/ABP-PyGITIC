@@ -1,20 +1,19 @@
 provider "aws" {
   region = "us-east-1"
-  //shared_credentials_files = ["/home/ajtarraga/.aws/credentials"]
 }
 
 data "archive_file" "zip_the_python_code" {
   type        = "zip"
   source_dir  = "${path.module}/python/"
-  output_path = "${path.module}/python/hello-python.zip"
+  output_path = "${path.module}/python/code.zip"
 }
 
 // Lambda para inserción de datos del sensor de un punto de carga
 resource "aws_lambda_function" "terraform_lambda_func" {
-  filename      = "${path.module}/python/hello-python.zip"
-  function_name = "Data-Lambda-Function"
-  role          = "arn:aws:iam::595531780921:role/LabRole" //TODO: Tomarlo de una variable o similar para que sea configurable
-  handler       = "hello-python.lambda_handler"
+  filename      = "${path.module}/python/code.zip"
+  function_name = "Sensor-Lambda-Function"
+  role          = "arn:aws:iam::466739547794:role/LabRole"
+  handler       = "sensor.lambda_handler"
   runtime       = "python3.8"
 }
 

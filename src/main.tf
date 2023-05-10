@@ -7,7 +7,8 @@ module "dynamodb" {
 }
 
 module "lambdas" {
-  source = "./lambdas"
+  source     = "./lambdas"
+  account_id = var.account_id
 }
 
 module "ec2" {

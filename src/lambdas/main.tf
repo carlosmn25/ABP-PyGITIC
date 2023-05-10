@@ -2,6 +2,11 @@ provider "aws" {
   region = "us-east-1"
 }
 
+variable "account_id" {
+  description = "AWS Account ID"
+  type        = string
+}
+
 data "archive_file" "zip_the_python_code" {
   type        = "zip"
   source_dir  = "${path.module}/python/"
@@ -12,9 +17,10 @@ data "archive_file" "zip_the_python_code" {
 resource "aws_lambda_function" "terraform_lambda_func" {
   filename      = "${path.module}/python/code.zip"
   function_name = "Sensor-Lambda-Function"
-  role          = "arn:aws:iam::466739547794:role/LabRole"
-  handler       = "sensor.lambda_handler"
-  runtime       = "python3.8"
+  # Combine in role the string "arn:aws:iam::" with the variable account_id and the string ":role/LabRole
+  role    = "arn:aws:iam::${var.account_id}:role/LabRole"
+  handler = "sensor.lambda_handler"
+  runtime = "python3.8"
 }
 
 resource "aws_lambda_function_url" "url1" {

@@ -1,5 +1,5 @@
 data "template_file" "installation_script" {
-	template = "${file("user_data.sh")}"
+	template = "${file("./ec2/user_data.sh")}"
 }
 
 resource "aws_vpc" "vpc" {

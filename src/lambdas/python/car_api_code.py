@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     tabla_electrolinera = dynamodb.Table('Electrolinera')
 
     if ('ID_PuntoCarga' in body): # Si la petición recibida tiene un ID_PuntoCarga, se devuelve el estado de ese punto de carga
-        response = tabla_estado.get_item(Key={'ID_Estado': body['ID_PuntoCarga']}, TableName='Estado')
+        response = tabla_estado.get_item(Key={'ID_Estado': body['ID_PuntoCarga']}, TableName='Estado') #TODO: Contemplar si no existe el ID
         return {
             'statusCode': 200,
             'body': response['Item']

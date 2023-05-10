@@ -78,10 +78,10 @@ resource "aws_instance" "statistics-webserver" {
 }
 
 resource "aws_security_group" "default" {
-  description = "Default security group to allow inbound/outbound from the VPC"
-  vpc_id      = "${aws_vpc.vpc.id}"
-  depends_on  = [aws_vpc.vpc]
-  ingress {
+	description = "Default security group to allow inbound/outbound from the VPC"
+	vpc_id      = "${aws_vpc.vpc.id}"
+	depends_on  = [aws_vpc.vpc]
+	ingress {
 		from_port = 80
 		to_port = 80
 		protocol = "tcp"
@@ -98,6 +98,13 @@ resource "aws_security_group" "default" {
 	ingress {
 		from_port = 443
 		to_port = 443
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+
+	ingress {
+		from_port = 3000
+		to_port = 3000
 		protocol = "tcp"
 		cidr_blocks = ["0.0.0.0/0"]
 	}

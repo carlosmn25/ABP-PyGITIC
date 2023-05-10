@@ -11,10 +11,11 @@
     <link rel="stylesheet" href="./css/tilerow.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/css/leaflet.extra-markers.min.css" integrity="sha512-wurszDyO1nj6ESdfrXb9h1hmoHMu3sQ3iXgKcu/p81lT+KaPGkta9NIPX7k6XXGgVYpcRHcc8AA4UIeQ7Ax/Cw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         #map {
-            height: 50vh;
+            height: 70vh;
             width: 100vw;
         }
     </style>
@@ -26,12 +27,29 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/js/leaflet.extra-markers.min.js" integrity="sha512-ejMFZwlfxDqEaSHHcCJ9EhzzDyp3QB5NjmGfOp1iwUQ7pFam2pX3EKERWvWK8H5HLQG6ETrx3RvrEFMQ4kIQ/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         var map = L.map('map').setView([38.99424, -1.85643], 5);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map)
+
+        var electrolineras = <%- JSON.stringify(electrolineras) %>
+
+        electrolineras.forEach(elec => {
+            new L.Marker(
+                [Number(elec.latitud.N), Number(elec.longitud.N)],
+                {
+                    icon: L.ExtraMarkers.icon({
+                        icon: 'fa-number',
+                        markerColor: 'green',
+                        number: parseInt(elec.estaciones.N)
+                    })
+                }).addTo(map);
+        });
+
     </script>
 </body>
 </html>

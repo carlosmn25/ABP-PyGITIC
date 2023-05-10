@@ -164,3 +164,4 @@ dist
 .pnp.*
 
 terraform.rc
+.zip

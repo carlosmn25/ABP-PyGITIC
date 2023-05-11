@@ -40,7 +40,7 @@
 
         electrolineras.forEach(elec => {
             new L.Marker(
-                [Number(elec.ubic_lat.N), Number(elec.ublic_lon.N)],
+                [Number(elec.ubic_lat.N), Number(elec.ubic_lon.N)],
                 {
                     icon: L.ExtraMarkers.icon({
                         icon: 'fa-number',
@@ -49,6 +49,8 @@
                     })
                 }).addTo(map);
         });
+
+        map.fitBounds(electrolineras.map(elec => [Number(elec.ubic_lat.N), Number(elec.ubic_lon.N)]));
 
     </script>
 </body>

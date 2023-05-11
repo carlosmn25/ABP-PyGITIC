@@ -22,10 +22,10 @@ for i in response['Items']:
 def import_electrolinera(row):
     item = {
             'ID_Electrolinera': row["index"],
+            'ubic_lat': row['Latitude'],
+            'ubic_lon': row['Longitude'],
             'nombre': row['Station Name'],
-            'latitud': row['Latitude'],
-            'longitud': row['Longitude'],
-            'estaciones': row['EV Level2 EVSE Num'],
+            'puntos_de_carga': row['EV Level2 EVSE Num'],
             'observaciones': "",
             'estado': 1
         }
@@ -59,9 +59,10 @@ for i in response['Items']:
 def import_punto_de_carga(row):
         item = {
                 'ID_PuntoCarga': row["index"]*1000 + row["puntos_de_carga"],
+                'estado': 1,
                 'ID_Electrolinera': row["index"],
                 'num_pc_electrolinera': row['puntos_de_carga'],
-                'estado': 1,
+                'cap_carga': 100,
                 'uptime': 0
             }
     

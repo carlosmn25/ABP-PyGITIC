@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#Include the credentials in the user_data.sh
+cp ~/.aws/credentials .
+sudo sed '8r credentials' ec2/user_data_template.sh > ec2/user_data.sh
+rm credentials
+
+
 # But export as a variable in the environment
 export TF_VAR_account_id=$(aws sts get-caller-identity | grep Account | cut -d '"' -f 4)
 terraform init

@@ -40,12 +40,12 @@
 
         electrolineras.forEach(elec => {
             new L.Marker(
-                [Number(elec.latitud.N), Number(elec.longitud.N)],
+                [Number(elec.ubic_lat.N), Number(elec.ublic_lon.N)],
                 {
                     icon: L.ExtraMarkers.icon({
                         icon: 'fa-number',
                         markerColor: 'green',
-                        number: parseInt(elec.estaciones.N)
+                        number: parseInt(elec.puntos_de_carga.N)
                     })
                 }).addTo(map);
         });

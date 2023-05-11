@@ -6,10 +6,7 @@ nvm install 16
 
 mkdir ~/.aws
 echo "
-[default]
-aws_access_key_id=ASIASGHCANAPSGN6TLFT
-aws_secret_access_key=LSZwSVkF2qWcJU+4JaLyDnpWbMQIAjE/MVyX0O6P
-aws_session_token=FwoGZXIvYXdzEIL//////////wEaDGDyCiQOEDK3nxlBfCK7AfSQLlPoJUvW7h+LGB9isPiS+TRYY5djfaQ8kHmhTMTuURTfwCm2cc0mXKKVHzSa0+Kek5+6QvLhXvqUEIuXUqksY33LeI37cWM5lV6YqkH3Lv47OqlyQ1S5BxSB4NdaDQZOt/tKIhZ1me3IVYvcAr/szT2Dy1i70Tx4lSxqQ+pF5jl/limrez4O4fFbSrmKflm1OckmAwlmbqP15Cz36Cz75Q3Gc2qVwtq7VNbkOhjsyqjJBhE/k4Rxjo4oqqjtogYyLRwch9znZbCASP8+igf7ymBR2n5ryUTwvzcUXHltZWwgnOZNJMRKe6mZ413WSQ==
+
 " > ~/.aws/credentials
 
 mkdir abp

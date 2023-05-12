@@ -6,6 +6,7 @@ import numpy as np
 import boto3
 from decimal import Decimal
 import json
+import time
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 electrolineras_tabla = dynamodb.Table('Electrolinera')
@@ -36,7 +37,7 @@ def import_electrolinera(row):
 
 df = pd.read_csv('eeuu_fuel_stations_processed.csv', low_memory=False)
 df["index"] = df.index + 1
-df_mini = df.head(30)
+df_mini = df.head(50)
 print(df_mini)
 df_mini.apply(import_electrolinera, axis=1)
 
@@ -71,3 +72,32 @@ def import_punto_de_carga(row):
         )
 
 df_mini.apply(import_punto_de_carga, axis=1)
+
+df_mini["ID_PuntoCarga"] = df_mini["index"]*1000 + df_mini["puntos_de_carga"]
+
+estados_tabla = dynamodb.Table('Estado')
+
+#Eliminamos las entradas anteriores
+response = estados_tabla.scan()
+for i in response['Items']:
+    estados_tabla.delete_item(
+        Key={
+            'ID_Estado': i['ID_Estado']
+        }
+    )
+
+def generate_status_pc(row):
+    timestamp = int(time.time())
+    item = {
+            'ID_Estado': row["ID_PuntoCarga"] + int(timestamp) / (10 ** len(str(timestamp))),
+            'ID_PuntoCarga': row["ID_PuntoCarga"],
+            'estado': 0,
+            'tiempo': timestamp,
+            'matricula': "",
+        }
+
+    estados_tabla.put_item(
+        Item = json.loads(json.dumps(item), parse_float=Decimal)
+    )
+
+df_mini.apply(generate_status_pc, axis=1)

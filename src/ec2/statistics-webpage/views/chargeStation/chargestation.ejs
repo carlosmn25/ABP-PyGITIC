@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los del MUii</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tilerow.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/css/leaflet.extra-markers.min.css" integrity="sha512-wurszDyO1nj6ESdfrXb9h1hmoHMu3sQ3iXgKcu/p81lT+KaPGkta9NIPX7k6XXGgVYpcRHcc8AA4UIeQ7Ax/Cw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/js/leaflet.extra-markers.min.js" integrity="sha512-ejMFZwlfxDqEaSHHcCJ9EhzzDyp3QB5NjmGfOp1iwUQ7pFam2pX3EKERWvWK8H5HLQG6ETrx3RvrEFMQ4kIQ/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
+    <script src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+    <style>
+        main {
+            margin: 0 auto;
+            width: 60%;
+            min-width: 500px;
+        }
+
+        .datos-electrolinera {
+            margin: 0;
+            min-width: 500px;
+            height: 400px;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <%- include("../nav.ejs") %>
+    <br><br>
+    <main>
+        <div class="datos-electrolinera">
+            <h1></h1>
+            <h1>#<%= electrolinera.ID_Electrolinera.N %> - <%= electrolinera.nombre.S %></h1>
+            <p>Ahora mismo está <%= `${electrolinera.estado.N ? "abierto" : "cerrado"}` %></p>
+            <div id="map"></div>
+        </div>
+        <h2>Cargadores en esta electrolinera</h2>
+        <div id="example-table">
+        </div>
+    </main>
+
+    <br><br><br>
+
+    <script>
+        var electrolinera = <%- JSON.stringify(electrolinera) %>;
+        var puntoscarga = <%- JSON.stringify(puntoscarga) %>;
+
+        var map = L.map('map');
+        marcador = new L.Marker(
+                [Number(electrolinera.ubic_lat.N), Number(electrolinera.ubic_lon.N)],
+                {
+                    icon: L.ExtraMarkers.icon({
+                        icon: 'fa-number',
+                        markerColor: 'green',
+                        number: parseInt(electrolinera.puntos_de_carga.N)
+                    })
+                }).addTo(map);
+
+            map.setView([Number(electrolinera.ubic_lat.N), Number(electrolinera.ubic_lon.N)], 12);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map)
+
+        // Crear la instancia de Tabulator y configurar la tabla
+        var table = new Tabulator("#example-table", {
+            layout:"fitColumns",
+            columns: [
+                { title: "ID", field: "ID_PuntoCarga.N"},
+                { title: "Número de cargador", field: "num_pc_electrolinera.N", width: 300},
+                { title: "Estado", field: "estado.N", formatter: estado => {return `${parseInt(estado.getValue()) ? "Ocupado" : "Disponible"}`}},
+            ],
+            initialSort:[
+                {column:"num_pc_electrolinera.N", dir:"asc"},
+            ],
+            data: puntoscarga,
+        });
+
+        table.on("rowClick", function(e, row){
+            // Obtener el ID de la electrolinera seleccionada
+            var id = row.getData().ID_PuntoCarga.N;
+            // Redirigir a la página de la electrolinera
+            window.location.pathname = "/chargestation/<%= electrolinera.ID_Electrolinera.N %>/" + id;
+        });
+    </script>
+</body>
+</html>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Los del MUii</title>
 
-    <link rel="stylesheet" href="./css/common.css">
-    <link rel="stylesheet" href="./css/nav.css">
-    <link rel="stylesheet" href="./css/tilerow.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tilerow.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-extra-markers/1.2.1/css/leaflet.extra-markers.min.css" integrity="sha512-wurszDyO1nj6ESdfrXb9h1hmoHMu3sQ3iXgKcu/p81lT+KaPGkta9NIPX7k6XXGgVYpcRHcc8AA4UIeQ7Ax/Cw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -47,10 +47,18 @@
                         markerColor: 'green',
                         number: parseInt(elec.puntos_de_carga.N)
                     })
-                }).addTo(map);
+                }).addTo(map).bindPopup(genera_popup(elec));
         });
 
         map.fitBounds(electrolineras.map(elec => [Number(elec.ubic_lat.N), Number(elec.ubic_lon.N)]));
+
+        function genera_popup(electrolinera){
+            return "<h3>" + electrolinera.nombre.S + "</h3>" + 
+                "<p>" + electrolinera.puntos_de_carga.N + " puntos de carga <br>"
+                 + `Estado: ${electrolinera.estado.N ? "Abierto" : "Cerrado"}` + "</p>"
+                + "<a href='/chargestation/" + electrolinera.ID_Electrolinera.N + "'>Ver detalles</a>";
+
+        }
 
     </script>
 </body>

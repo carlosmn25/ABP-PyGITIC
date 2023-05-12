@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los del MUii</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tilerow.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
+    <script src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+    <style>
+        main {
+            margin: 0 auto;
+            width: 60%;
+            min-width: 500px;
+        }
+
+        .datos-puntoscarga {
+            margin: 0;
+            min-width: 500px;
+            height: 150px;
+        }
+
+    </style>
+</head>
+<body>
+    <%- include("../nav.ejs") %>
+    <br><br>
+    <main>
+        <div class="datos-puntoscarga">
+            <h1></h1>
+            <h1>#<%= puntoscarga.ID_PuntoCarga.N %> - POC <%= puntoscarga.num_pc_electrolinera.N %> de <%= electrolinera.nombre.S %></h1>
+            <p>Ahora mismo está <%= `${puntoscarga.estado.N ? "ocupado" : "disponible"}` %></p>
+        </div>
+        <h2>Estados de este cargador</h2>
+        <div id="example-table">
+        </div>
+    </main>
+
+    <br><br><br>
+
+    <script>
+        var electrolinera = <%- JSON.stringify(electrolinera) %>;
+        var puntoscarga = <%- JSON.stringify(puntoscarga) %>;
+        var estados = <%- JSON.stringify(estados) %>;
+
+        // Crear la instancia de Tabulator y configurar la tabla
+        var table = new Tabulator("#example-table", {
+            layout:"fitColumns",
+            columns: [
+                { title: "ID", field: "ID_Estado.N"},
+                { title: "Fecha y hora", field: "tiempo.N", width: 300, formatter: tiempo => {return new Date(parseInt(tiempo.getValue()) * 1000).toLocaleString()}},
+                { title: "Estado", field: "estado.N", formatter: estado => { return `${parseInt(estado.getValue()) ? "Ocupado" : "Disponible"}`}},
+            ],
+            initialSort:[
+                {column:"num_pc_electrolinera.N", dir:"asc"},
+            ],
+            data: estados,
+        });
+    </script>
+</body>
+</html>

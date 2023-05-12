@@ -17,14 +17,14 @@ app.use(express.static("public"));
 //Make a router for the app
 const indexRouter = require('./routes/index')
 //const pocRouter = require('./routes/poc')
-//const chargeStationRouter = require('./routes/chargeStation')
+const chargeStationRouter = require('./routes/chargeStation')
 //const statisticsRouter = require('./routes/statistics')
 
 
 
 //Set router as the default router for the app
 //app.use('/poc', pocRouter)
-//app.use('/chargestation', chargeStationRouter);
+app.use('/chargestation', chargeStationRouter);
 //app.use('/statistics', statisticsRouter)
 app.use('/', indexRouter)
 

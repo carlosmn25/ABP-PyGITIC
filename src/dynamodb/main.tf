@@ -37,7 +37,7 @@ resource "aws_dynamodb_table" "estado_table" {
   
   attribute {
     name = "ID_Estado"
-    type = "S"
+    type = "N"
   }
 }
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los del MUii</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tilerow.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css">
+    <script src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+    <style>
+        #example-table {
+            margin: 0 auto;
+            width: 60%;
+            min-width: 500px;
+        }
+
+    </style>
+</head>
+<body>
+    <%- include("../nav.ejs") %>
+    <%- include("../tilerow.ejs") %>
+
+    <div id="example-table">
+
+    </div>
+
+    <br><br><br>
+
+    <script>
+        var electrolineras = <%- JSON.stringify(electrolineras) %>;
+
+        // Crear la instancia de Tabulator y configurar la tabla
+        var table = new Tabulator("#example-table", {
+            layout:"fitColumns",
+            columns: [
+                { title: "ID", field: "ID_Electrolinera.N", sorter: "number"},
+                { title: "Electrolinera", field: "nombre.S", width: 300},
+                { title: "Número de cargadores", field: "puntos_de_carga.N"},
+            ],
+            data: electrolineras,
+            initialSort: [
+                { column: "ID_Electrolinera.N", dir: "asc" }
+            ],
+        });
+
+        table.on("rowClick", function(e, row){
+            // Obtener el ID de la electrolinera seleccionada
+            var id = row.getData().ID_Electrolinera.N;
+            // Redirigir a la página de la electrolinera
+            window.location.pathname = "/chargestation/" + id;
+        });
+    </script>
+</body>
+</html>

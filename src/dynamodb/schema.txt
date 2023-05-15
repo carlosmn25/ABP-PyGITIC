@@ -11,8 +11,9 @@ ELECTROLINERA
 - (float) ubic_lat
 - (float) ubic_lon
 - (str) nombre
+- (int) puntos_de_carga (número)
 - (str) observaciones
-- (int) disponibilidad (cerrado/abierto)
+- (int) estado (cerrado/abierto)
 
 ESTADO
 - (int) id (número único por cada estado)

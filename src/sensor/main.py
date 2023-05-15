@@ -54,43 +54,45 @@ try:
 
         # Obtenemos la distancia considerando que la señal recorre dos veces la distancia a medir y que la velocidad del sonido es 343m/s
         distancia = (34300 * duracion) / 2
-        
+
         if (ocupado == True) and (distancia > 50):
             ocupado = False
-            ID_Estado = str(ID_EstadoNumber) + str("-") + str(timestamp)
+
+            timestamp = int(time.time())
+            ID_Estado = str(ID_EstadoNumber) + str(".") + str(timestamp)
             item = {
                 "ID_Estado": ID_Estado,
                 "estado": 0,
                 "matricula": matricula,
                 "tiempo": timestamp
             }
-            
+
             print(json.dumps(item))
 
             res = requests.post(API_URL, json=item)
-            
+
             print(res.status_code, " Enviado libre")
-            
+
             print("\n***** ESPACIO LIBERADO *****\n")
-            
+
         elif (distancia < 50) and (ocupado == False):
             contador += 1
-            if contador % 2 == 0: # Cada segundo (2 ticks de 0.5 segundos)
-                print(int(contador/2),"/10 segundos")
-            if contador == 20: # Cuando el sensor está a menos de 50cm durante 10 segundos
+            if contador % 2 == 0:  # Cada segundo (2 ticks de 0.5 segundos)
+                print(int(contador/2), "/10 segundos")
+            if contador == 20:  # Cuando el sensor está a menos de 50cm durante 10 segundos
                 ocupado = True
                 API_URL = "https://myfikl25y7a3h7ylmmaauzucua0mossf.lambda-url.us-east-1.on.aws/"
-                
-                ID_EstadoNumber = random.randint(1,20)
+
+                ID_EstadoNumber = random.randint(1, 20)
                 matricula = ""
                 for i in range(3):
                     matricula += random.choice(string.ascii_uppercase)
-                numero = random.randint(1000,9999)
+                numero = random.randint(1000, 9999)
                 matricula += str(numero)
 
                 timestamp = int(time.time())
 
-                ID_Estado = str(ID_EstadoNumber) + str("-") + str(timestamp)
+                ID_Estado = str(ID_EstadoNumber) + str(".") + str(timestamp)
 
                 item = {
                     "ID_Estado": ID_Estado,
@@ -98,13 +100,13 @@ try:
                     "matricula": matricula,
                     "tiempo": timestamp
                 }
-                
+
                 print(json.dumps(item))
 
                 res = requests.post(API_URL, json=item)
 
                 print(res.status_code, " Enviado ocupado")
-                
+
                 print("\n***** ESPACIO OCUPADO, ESPERE A SER LIBERADO *****\n")
         else:
             contador = 0

@@ -14,11 +14,18 @@ def lambda_handler(event, context):
     tabla_punto_carga = dynamodb.Table('PuntoCarga')
 
     if ('ID_PuntoCarga' in body): # Si la petición recibida tiene un ID_PuntoCarga, se devuelve el estado de ese punto de carga
-        response = tabla_estado.get_item(Key={'ID_PuntoCarga': body['ID_PuntoCarga']}, TableName='Estado') #TODO: Contemplar si no existe el ID
-        return {
-            'statusCode': 200,
-            'body': response['Item']
-        }
+        response = tabla_estado.scan(FilterExpression={'ID_PuntoCarga': body['ID_PuntoCarga']}, TableName='Estado') #TODO: Contemplar si no existe el ID
+        # Comprobamos si el ID_PuntoCarga existe
+        if (response['Count'] == 0):
+            return {
+                'statusCode': 404,
+                'body': 'No existe el ID_PuntoCarga especificado.'
+            }
+        else:
+            return {
+                'statusCode': 200,
+                'body': response['Item']
+            }
     elif (('lat1' in body) and ('lat2' in body) and ('lon1' in body) and ('lon2' in body)): # Hemos recibido una petición de electrolineras en un área
         # Intercambiamos lat1 y lat2 si lat1 > lat2
         if (body['lat1'] > body['lat2']):

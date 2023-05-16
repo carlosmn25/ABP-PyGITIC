@@ -17,7 +17,8 @@ def lambda_handler(event, context):
             'ID_Estado': body['ID_Estado'],
             'estado': body['estado'],
             'tiempo': body['tiempo'],
-            'matricula': body['matricula']
+            'matricula': body['matricula'],
+            'ID_PuntoCarga': body['ID_PuntoCarga']
         }
     )
 

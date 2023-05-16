@@ -65,7 +65,8 @@ try:
                 "ID_Estado": ID_Estado,
                 "estado": 0,
                 "matricula": matricula,
-                "tiempo": timestamp
+                "tiempo": timestamp,
+                "ID_PuntoCarga": ID_EstadoNumber
             }
 
             print(json.dumps(item))
@@ -87,7 +88,7 @@ try:
                 matricula = ""
                 for i in range(3):
                     matricula += random.choice(string.ascii_uppercase)
-                numero = random.randint(1000, 9999)
+                numero = 1001
                 matricula += str(numero)
 
                 timestamp = int(time.time())
@@ -97,7 +98,8 @@ try:
                     "ID_Estado": ID_Estado,
                     "estado": 1,
                     "matricula": matricula,
-                    "tiempo": timestamp
+                    "tiempo": timestamp,
+                    "ID_PuntoCarga": ID_EstadoNumber
                 }
 
                 print(json.dumps(item))

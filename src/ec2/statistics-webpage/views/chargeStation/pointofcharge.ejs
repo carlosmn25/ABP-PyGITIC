@@ -52,7 +52,7 @@
         var table = new Tabulator("#example-table", {
             layout:"fitColumns",
             columns: [
-                { title: "ID", field: "ID_Estado.N"},
+                { title: "ID", field: "ID_Estado.S"},
                 { title: "Fecha y hora", field: "tiempo.N", width: 300, formatter: tiempo => {return new Date(parseInt(tiempo.getValue()) * 1000).toLocaleString()}},
                 { title: "Estado", field: "estado.N", formatter: estado => { return `${parseInt(estado.getValue()) ? "Ocupado" : "Disponible"}`}},
             ],

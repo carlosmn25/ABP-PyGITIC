@@ -60,7 +60,7 @@ for i in response['Items']:
 def import_punto_de_carga(row):
         item = {
                 'ID_PuntoCarga': row["index"]*1000 + row["puntos_de_carga"],
-                'estado': 1,
+                'estado': 0,
                 'ID_Electrolinera': row["index"],
                 'num_pc_electrolinera': row['puntos_de_carga'],
                 'cap_carga': 100,
@@ -89,7 +89,7 @@ for i in response['Items']:
 def generate_status_pc(row):
     timestamp = int(time.time())
     item = {
-            'ID_Estado': row["ID_PuntoCarga"] + int(timestamp) / (10 ** len(str(timestamp))),
+            'ID_Estado': str(row["ID_PuntoCarga"]) + "." + str(timestamp),
             'ID_PuntoCarga': row["ID_PuntoCarga"],
             'estado': 0,
             'tiempo': timestamp,

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los del MUii</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tilerow.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js" integrity="sha512-CMF3tQtjOoOJoOKlsS7/2loJlkyctwzSoDK/S40iAB+MqWSaf50uObGQSk5Ny/gfRhRCjNLvoxuCvdnERU4WGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        .grafico {
+            margin: 0 auto;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+    <%- include("../nav.ejs") %>
+    <br><br>
+        <div class="grafico">
+            <canvas id="myChart"></canvas>
+        </div>
+    <script>
+        var estadisticas = <%- JSON.stringify(estadisticas) %>;
+        estadisticas = estadisticas.map((estadistica) => {
+            return {
+                "datetime": new Date(parseInt(estadistica.tiempo.N)*1000),
+                "num_pc_encarga": parseInt(estadistica.num_pc_encarga.N),
+                "num_pc_nocarga": parseInt(estadistica.num_pc_nocarga.N),
+                "num_pc_oos": parseInt(estadistica.num_pc_oos.N),
+                "puntoscarga_total": parseInt(estadistica.puntoscarga_total.N),
+            }
+        });
+        estadisticas = estadisticas.slice(0, 30);
+        //Ordena estadisticas por fecha
+        estadisticas.sort((a, b) => a.datetime - b.datetime);
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Datos del gráfico
+        const datos = {
+            labels: estadisticas.map((estadistica) => estadistica.datetime.toLocaleTimeString()),
+            datasets: [
+                {
+                label: 'Puntos de carga sin usar',
+                data: estadisticas.map((estadistica) => { return {
+                        x: estadistica.datetime.toLocaleTimeString(),
+                        y: estadistica.num_pc_nocarga
+                    }}),
+                fill: false,
+                borderColor: '#e74c3c',
+                tension: 0.1
+                },
+                {
+                label: 'Puntos de carga en uso',
+                data: estadisticas.map((estadistica) => { return {
+                        x: estadistica.datetime.toLocaleTimeString(),
+                        y: estadistica.num_pc_encarga
+                    }}),
+                fill: false,
+                borderColor: '#27ae60', 
+                tension: 0.1
+                },
+                {
+                label: 'Puntos de carga fuera de servicio',
+                data: estadisticas.map((estadistica) => { return {
+                        x: estadistica.datetime.toLocaleTimeString(),
+                        y: estadistica.num_pc_oos
+                    }}),
+                fill: false,
+                borderColor: 'black',
+                tension: 0.1
+                }
+            ]
+        };
+
+        // Opciones del gráfico
+        const opciones = {
+        scales: {
+            x: {
+            type: 'time',
+            time: {
+                unit: 'minute',
+            },
+            title: {
+                display: true,
+                text: 'Tiempo'
+            }
+            },
+            y: {
+            title: {
+                display: true,
+                text: 'Valor'
+            }
+            }
+        }
+        };
+
+        // Crear el gráfico
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: datos
+        });
+
+    </script>
+</body>
+</html>

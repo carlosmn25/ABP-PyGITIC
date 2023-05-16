@@ -37,6 +37,8 @@
             }
         });
         estadisticas = estadisticas.slice(0, 30);
+        //Ordena estadisticas por fecha
+        estadisticas.sort((a, b) => a.datetime - b.datetime);
 
         const ctx = document.getElementById('myChart').getContext('2d');
 

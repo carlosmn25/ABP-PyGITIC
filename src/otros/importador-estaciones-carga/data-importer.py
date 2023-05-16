@@ -60,7 +60,7 @@ for i in response['Items']:
 def import_punto_de_carga(row):
         item = {
                 'ID_PuntoCarga': row["index"]*1000 + row["puntos_de_carga"],
-                'estado': 1,
+                'estado': 0,
                 'ID_Electrolinera': row["index"],
                 'num_pc_electrolinera': row['puntos_de_carga'],
                 'cap_carga': 100,

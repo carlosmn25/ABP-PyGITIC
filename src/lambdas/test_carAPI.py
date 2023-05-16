@@ -6,14 +6,14 @@ TEST_CASE = 2 # 0: ID_PuntoCarga, 1: Área de búsqueda, 2: Error
 
 if (TEST_CASE == 0):
     item = {
-        "ID_PuntoCarga": 1
+        "ID_PuntoCarga": 45001
     }
 elif (TEST_CASE == 1):
     item = {
-        "lat1": 1,
-        "lat2": 5,
-        "lon1": 1,
-        "lon2": 5
+        "lat1": 100,
+        "lat2": -100,
+        "lon1": 100,
+        "lon2": -100
     }
 elif (TEST_CASE == 2):
     item = {

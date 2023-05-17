@@ -12,7 +12,7 @@ estados = {
 
 if (TEST_CASE == 0):
     item = {
-        "ID_PuntoCarga": 1001
+        "ID_PuntoCarga": 3
     }
 elif (TEST_CASE == 1):
     item = {
@@ -35,8 +35,8 @@ if (res.status_code != 200):
 else:
     print("Petición realizada con éxito")
     if (TEST_CASE == 0):
-        print("Punto de carga con ID: " + str(json.loads(res.text)[0]['ID_PuntoCarga']) + "; Estado: " + estados[str(json.loads(res.text)[0]['estado'])] )
-        #print(res.text)
+        #print("Punto de carga con ID: " + str(json.loads(res.text)[0]['ID_PuntoCarga']) + "; Estado: " + estados[str(json.loads(res.text)[0]['estado'])] )
+        print(res.text)
     elif(TEST_CASE == 1):
         print("Electrolineras en el área: ")
         print(json.dumps(json.loads(res.text), indent=4, sort_keys=True))

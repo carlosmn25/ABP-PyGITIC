@@ -20,7 +20,7 @@ try:
     ocupado = False
     matricula = ""
     contador = 0
-    API_URL = "https://gjgnahfmtkpeymtdarbnfzonea0ispfy.lambda-url.us-east-1.on.aws/"
+    API_URL = "https://kuzd5ijt4nlvgphkcxwwlwadhy0qpdru.lambda-url.us-east-1.on.aws/"
     # Implementamos un loop infinito
     while True:
 
@@ -84,11 +84,11 @@ try:
             if contador == 20:  # Cuando el sensor está a menos de 50cm durante 10 segundos
                 ocupado = True         
 
-                ID_EstadoNumber = random.randint(1, 20)
+                ID_EstadoNumber = 1001
                 matricula = ""
                 for i in range(3):
                     matricula += random.choice(string.ascii_uppercase)
-                numero = 1001
+                numero = random.randint(1000, 9999)
                 matricula += str(numero)
 
                 timestamp = int(time.time())
